@@ -6,14 +6,9 @@ type ValidationFailiure = {
     passwordMissing: boolean;
 };
 
-const defaultFailiure: ValidationFailiure = {
-    usernameMissing: false,
-    passwordMissing: false,
-};
-
 export const actions: Actions = {
     login: async (event) => {
-        const { request } = event;
+        const { request, cookies, locals } = event;
         const form = await request.formData();
 
         console.log(form.get("username"));
@@ -32,6 +27,18 @@ export const actions: Actions = {
             validationResult.passwordMissing
         ) {
             return fail(400, validationResult);
+        }
+
+        if (username && password) {
+            locals.user = {
+                username: username.toString(),
+                password: password.toString(),
+            };
+            cookies.set("token_user", "true", {
+                path: "/",
+                httpOnly: true,
+                secure: true,
+            });
         }
 
         return {
