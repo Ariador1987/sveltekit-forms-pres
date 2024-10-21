@@ -27,12 +27,16 @@
             placeholder="Type username here"
             class="input input-bordered w-full bg-white focus:ring-2"
         />
-        <div class="label">
-            <span class="label-text-alt">Bottom Left label</span>
-        </div>
+        {#if form?.usernameMissing}
+            <div class="label">
+                <span class="label-text-alt text-error"
+                    >Please enter a valid username</span
+                >
+            </div>
+        {/if}
     </label>
     <label
-        class="form-control min-h-32 w-full"
+        class="form-control min-h-20 w-full mb-12"
         for="password"
     >
         <div class="label">
@@ -45,11 +49,15 @@
             placeholder="Type password here"
             class="input input-bordered w-full bg-white focus:ring-2"
         />
-        <div class="label">
-            <span class="label-text-alt">Bottom Left label</span>
-        </div>
-        <button class="btn btn-primary mt-6 uppercase text-white text-lg"
-            >Submit</button
-        >
+        {#if form?.passwordMissing}
+            <div class="label">
+                <span class="label-text-alt text-error"
+                    >Please enter a valid password</span
+                >
+            </div>
+        {/if}
     </label>
+    <button class="btn btn-block btn-primary uppercase text-white text-lg"
+        >Submit</button
+    >
 </form>

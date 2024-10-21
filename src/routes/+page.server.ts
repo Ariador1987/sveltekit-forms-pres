@@ -22,18 +22,16 @@ export const actions: Actions = {
         const username = form.get("username");
         const password = form.get("password");
 
-        if (!username) {
-            return fail(400, {
-                ...defaultFailiure,
-                usernameMissing: true,
-            });
-        }
+        const validationResult = validateUsernameAndPassword(
+            username,
+            password,
+        );
 
-        if (!password) {
-            return fail(400, {
-                ...defaultFailiure,
-                usernameMissing: true,
-            });
+        if (
+            validationResult.usernameMissing ||
+            validationResult.passwordMissing
+        ) {
+            return fail(400, validationResult);
         }
 
         return {
@@ -41,3 +39,13 @@ export const actions: Actions = {
         };
     },
 };
+
+function validateUsernameAndPassword(
+    username: FormDataEntryValue | null,
+    password: FormDataEntryValue | null,
+): ValidationFailiure {
+    return {
+        usernameMissing: !username,
+        passwordMissing: !password,
+    };
+}
