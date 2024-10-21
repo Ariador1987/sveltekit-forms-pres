@@ -1,5 +1,8 @@
 <script lang="ts">
+    import type { ActionData } from "./$types";
+
     export let action: string;
+    export let form: ActionData;
 </script>
 
 <form

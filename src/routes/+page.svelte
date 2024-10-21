@@ -1,5 +1,8 @@
 <script lang="ts">
+    import type { ActionData } from "./$types";
     import Form from "./Form.svelte";
+
+    export let form: ActionData;
 </script>
 
 <section
@@ -13,6 +16,9 @@
         </p>
     </div>
 
-    <!-- <Form action="?/login">Register</Form> -->
-    <Form action="./some/other/route">Register</Form>
+    <Form
+        action="?/login"
+        {form}>Register</Form
+    >
+    <!-- <Form action="./some/other/route">Register</Form> -->
 </section>
