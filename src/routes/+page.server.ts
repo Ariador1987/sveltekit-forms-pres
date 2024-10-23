@@ -1,58 +1,77 @@
-import { fail, type Actions } from "@sveltejs/kit";
-import type { RequestEvent } from "./$types";
+import { fail, redirect, type Actions } from "@sveltejs/kit";
+
+import type { PageServerLoad } from "./$types";
+
+export const load = (async ({ locals }) => {
+	console.log(locals, " load");
+
+	return {
+		user: locals.user,
+	};
+}) satisfies PageServerLoad;
 
 type ValidationFailiure = {
-    usernameMissing: boolean;
-    passwordMissing: boolean;
+	usernameMissing: boolean;
+	passwordMissing: boolean;
 };
 
 export const actions: Actions = {
-    login: async (event) => {
-        const { request, cookies, locals } = event;
-        const form = await request.formData();
+	login: async (event) => {
+		const { request, cookies, locals } = event;
+		const form = await request.formData();
 
-        console.log(form.get("username"));
-        console.log(form.get("password"));
+		console.log(form.get("username"));
+		console.log(form.get("password"));
 
-        const username = form.get("username");
-        const password = form.get("password");
+		const username = form.get("username");
+		const password = form.get("password");
 
-        const validationResult = validateUsernameAndPassword(
-            username,
-            password,
-        );
+		console.log("run from server ts");
 
-        if (
-            validationResult.usernameMissing ||
-            validationResult.passwordMissing
-        ) {
-            return fail(400, validationResult);
-        }
+		const validationResult = validateUsernameAndPassword(username, password);
 
-        if (username && password) {
-            locals.user = {
-                username: username.toString(),
-                password: password.toString(),
-            };
-            cookies.set("token_user", "true", {
-                path: "/",
-                httpOnly: true,
-                secure: true,
-            });
-        }
+		if (validationResult.usernameMissing || validationResult.passwordMissing) {
+			return fail(400, validationResult);
+		}
 
-        return {
-            success: true,
-        };
-    },
+		if (username && password) {
+			locals.user = {
+				username: username.toString(),
+				password: password.toString(),
+			};
+			cookies.set("token_user", "true", {
+				path: "/",
+				httpOnly: true,
+				secure: true,
+			});
+		}
+
+		return {
+			success: true,
+		};
+	},
+
+	logout: async (event) => {
+		const { cookies, locals } = event;
+
+		cookies.delete("token_user", {
+			path: "/",
+			httpOnly: true,
+			secure: true,
+		});
+
+		locals.user = null;
+
+		throw redirect(301, "/");
+	},
 };
 
 function validateUsernameAndPassword(
-    username: FormDataEntryValue | null,
-    password: FormDataEntryValue | null,
+	username: FormDataEntryValue | null,
+	password: FormDataEntryValue | null
 ): ValidationFailiure {
-    return {
-        usernameMissing: !username,
-        passwordMissing: !password,
-    };
+	return {
+		usernameMissing: !username,
+		passwordMissing: !password,
+	};
 }
