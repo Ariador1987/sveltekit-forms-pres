@@ -47,7 +47,7 @@ export const actions: Actions = {
 
 		if (url.searchParams.get("redirectTo")) {
 			console.log(url.searchParams.get("redirectTo"), " redirection");
-			throw redirect(301, url.searchParams.get("redirectTo") as string);
+			throw redirect(303, url.searchParams.get("redirectTo") as string);
 		}
 
 		return {
@@ -66,7 +66,7 @@ export const actions: Actions = {
 
 		locals.user = null;
 
-		throw redirect(301, "/");
+		throw redirect(303, "/");
 	},
 };
 

@@ -7,12 +7,16 @@
 </script>
 
 <section
-	class="m-auto max-w-2xl w-full shadow-md flex justify-between flex-col items-center h-fit bg-white p-12"
+	class="m-auto max-w-2xl w-full shadow-md flex justify-between flex-col items-center h-fit bg-white p-4"
 >
-	<div>
-		<h1 class="text-3xl">Welcome to SvelteKit</h1>
+	<div class="text-center">
+		<h1 class="text-3xl">Welcome to Forms presentation</h1>
 		<p>
-			Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation
+			Visit the <a
+				href="https://github.com/Ariador1987/sveltekit-forms-pres"
+				target="_blank"
+				class="link text-blue-400">Github link</a
+			> to clone the repo
 		</p>
 		{#if form?.success || data?.user?.username}
 			<h2 class="text-primary text-xl text-center mt-6">

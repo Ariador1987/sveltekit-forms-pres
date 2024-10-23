@@ -6,7 +6,7 @@
 </script>
 
 <form
-	class="container p-6 w-full bg-white shadow-lg rounded-md"
+	class="container p-4 w-full bg-white shadow-lg rounded-md"
 	{action}
 	method="POST"
 >
