@@ -1,5 +1,7 @@
 <script lang="ts">
+	import { enhance } from "$app/forms";
 	import type { ActionData } from "./$types";
+	// import { SubmitFunction } from "@sveltejs/kit";
 
 	export let action: string;
 	export let form: ActionData | undefined;
@@ -9,6 +11,7 @@
 	class="container p-4 w-full bg-white shadow-lg rounded-md"
 	{action}
 	method="POST"
+	use:enhance
 >
 	<h2 class="text-2xl font-bold font-sans">
 		<slot>Register</slot>

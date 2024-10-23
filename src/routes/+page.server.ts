@@ -1,4 +1,4 @@
-import { fail, redirect, type Actions } from "@sveltejs/kit";
+import { error, fail, redirect, type Actions } from "@sveltejs/kit";
 
 import type { PageServerLoad } from "./$types";
 
@@ -26,6 +26,14 @@ export const actions: Actions = {
 
 		const username = form.get("username");
 		const password = form.get("password");
+
+		// For Demoing CustomizedForm how the hooks work
+		await new Promise<void>((resolve) => {
+			return setTimeout(() => resolve(), 3000);
+		});
+
+		// For Demoing CustomizedForm how the error works
+		// throw error(418, " napad Nikole Kabooma");
 
 		const validationResult = validateUsernameAndPassword(username, password);
 

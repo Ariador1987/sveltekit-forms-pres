@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { ActionData, PageData } from "./$types";
 	import Form from "./Form.svelte";
+	import FormCustomized from "./FormCustomized.svelte";
 
 	export let form: ActionData;
 	export let data: PageData;
@@ -26,8 +27,11 @@
 	</div>
 
 	{#if !data?.user}
-		<Form action="?/login" {form}>Register</Form>
+		<!-- <Form action="?/login" {form}>Register</Form> -->
 		<!-- <Form action="./some/other/route">Register</Form> -->
+		<FormCustomized action="?/login" {form}
+			>Register Form Customized</FormCustomized
+		>
 	{:else}
 		<form
 			class="p-6 w-full bg-white shadow-lg rounded-md"
