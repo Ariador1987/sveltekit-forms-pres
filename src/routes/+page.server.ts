@@ -17,16 +17,15 @@ type ValidationFailiure = {
 
 export const actions: Actions = {
 	login: async (event) => {
-		const { request, cookies, locals } = event;
+		const { request, cookies, locals, url } = event;
 		const form = await request.formData();
 
 		console.log(form.get("username"));
 		console.log(form.get("password"));
+		console.log("run from server ts");
 
 		const username = form.get("username");
 		const password = form.get("password");
-
-		console.log("run from server ts");
 
 		const validationResult = validateUsernameAndPassword(username, password);
 
@@ -44,6 +43,11 @@ export const actions: Actions = {
 				httpOnly: true,
 				secure: true,
 			});
+		}
+
+		if (url.searchParams.get("redirectTo")) {
+			console.log(url.searchParams.get("redirectTo"), " redirection");
+			throw redirect(301, url.searchParams.get("redirectTo") as string);
 		}
 
 		return {

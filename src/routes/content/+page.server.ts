@@ -8,7 +8,7 @@ type Todo = {
 	completed: boolean;
 };
 
-export const load = (async ({ fetch }) => {
+export const load = (async ({ fetch, locals }) => {
 	const res = await fetch("https://jsonplaceholder.typicode.com/todos/");
 	if (!res.ok) {
 		// throw new Error("Bad error");
@@ -19,10 +19,11 @@ export const load = (async ({ fetch }) => {
 		);
 	}
 
-	const todoDataPromise: Promise<Todo> = res.json();
+	const todoDataPromise: Promise<Todo[]> = res.json();
 	console.log(todoDataPromise, " todoData");
 
 	return {
+		user: locals.user,
 		streamed: {
 			todoDataPromise,
 		},
