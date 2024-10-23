@@ -14,3 +14,10 @@ export async function handle({ event, resolve }) {
 	// otherwise use the default behavior
 	return resolve(event);
 }
+
+export function handleError({ event, error }) {
+	console.log("HANDLE ERROR HOOK RAN");
+	return {
+		message: "everything is fine",
+	};
+}
